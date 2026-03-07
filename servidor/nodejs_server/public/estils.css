@@ -1,0 +1,46 @@
+:root {
+  --mida: 100px;
+  --files: 3;
+  --columnes: 3;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f0f0f0;
+  margin-top: 40px;
+}
+
+#tauler {
+  position: relative;
+  width: calc(var(--mida) * var(--columnes));
+  height: calc(var(--mida) * var(--files));
+  margin: 20px auto;
+  border: 2px solid #333;
+  background: #ddd;
+}
+
+.casella {
+  position: absolute;
+  width: var(--mida);
+  height: var(--mida);
+  z-index: 2;
+}
+
+.fitxa {
+  position: absolute;
+  width: var(--mida);
+  height: var(--mida);
+  background-size: cover;
+  background-position: center;
+  transition: left 0.25s ease, top 0.25s ease;
+  cursor: pointer;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#mensaje {
+  min-height: 20px;
+  font-weight: bold;
+  color: green;
+}
