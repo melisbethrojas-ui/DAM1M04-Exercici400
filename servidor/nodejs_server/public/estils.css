@@ -1,7 +1,7 @@
 :root {
-  --mida: 100px;
-  --files: 3;
-  --columnes: 3;
+  --mida: 100px;      /* tamaño de cada ficha */
+  --files: 3;         /* filas */
+  --columnes: 3;      /* columnas */
 }
 
 body {
@@ -20,25 +20,35 @@ body {
   background: #ddd;
 }
 
+/* Casillas clicables (invisibles pero detectan clics) */
 .casella {
   position: absolute;
   width: var(--mida);
   height: var(--mida);
-  z-index: 2;
+  z-index: 3;
+  cursor: pointer;
 }
 
+/* Fichas del puzzle */
 .fitxa {
   position: absolute;
   width: var(--mida);
   height: var(--mida);
-  background-size: cover;
-  background-position: center;
-  transition: left 0.25s ease, top 0.25s ease;
-  cursor: pointer;
-  z-index: 1;
-  pointer-events: none;
+
+  /* IMPORTANTE: tamaño total de la imagen completa */
+  background-size: calc(var(--mida) * var(--columnes))
+                   calc(var(--mida) * var(--files));
+
+  background-repeat: no-repeat;
+
+  /* Movimiento suave con transform */
+  transition: transform 0.25s ease;
+
+  z-index: 2;
+  pointer-events: none; /* evita interferir con clics */
 }
 
+/* Mensaje final */
 #mensaje {
   min-height: 20px;
   font-weight: bold;

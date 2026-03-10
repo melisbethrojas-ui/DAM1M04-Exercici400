@@ -30,11 +30,26 @@ function init() {
     }
   }
 
-  // Crear fichas (1..8)
+  // Crear fichas (1..8) usando UNA sola imagen
+  const imagen = "imatges/curry 4k.jpg"; // ← tu imagen aquí
+
   for (let id = 1; id <= 8; id++) {
     const refFicha = document.createElement("div");
     refFicha.classList.add("fitxa");
-    refFicha.style.backgroundImage = `url("imatges/${id}.png")`;
+
+    // Usar la misma imagen para todas las fichas
+    refFicha.style.backgroundImage = `url("${imagen}")`;
+
+    // Ajustar tamaño total del fondo (3x3)
+    refFicha.style.backgroundSize =
+      `${midaCasella * numColumnes}px ${midaCasella * numFiles}px`;
+
+    // Calcular qué parte de la imagen corresponde a esta ficha
+    const posX = ((id - 1) % numColumnes) * midaCasella;
+    const posY = Math.floor((id - 1) / numColumnes) * midaCasella;
+
+    refFicha.style.backgroundPosition = `-${posX}px -${posY}px`;
+
     refTablero.appendChild(refFicha);
     fichasDOM[id] = refFicha;
   }
@@ -100,6 +115,7 @@ function clickCasilla(fila, col) {
   if (df + dc === 1) {
     intercambiar(fila, col, hueco.fila, hueco.col);
     movimientos++;
+    console.log("Movimiento número:", movimientos);
     document.getElementById("info").textContent = `Movimientos: ${movimientos}`;
     actualizarDOM();
     comprobarResuelto();
@@ -114,14 +130,13 @@ function intercambiar(f1, c1, f2, c2) {
 
 function actualizarDOM() {
 
-  // Mover fichas
+  // Mover fichas con TRANSFORM (como pide tu profesor)
   for (let f = 0; f < numFiles; f++) {
     for (let c = 0; c < numColumnes; c++) {
       const valor = tablero[f][c];
       if (valor !== 0) {
         const ficha = fichasDOM[valor];
-        ficha.style.left = `${c * midaCasella}px`;
-        ficha.style.top = `${f * midaCasella}px`;
+        ficha.style.transform = `translate(${c * midaCasella}px, ${f * midaCasella}px)`;
       }
     }
   }
@@ -133,8 +148,7 @@ function actualizarDOM() {
   for (let f = 0; f < numFiles; f++) {
     for (let c = 0; c < numColumnes; c++) {
       const casilla = casillas[index];
-      casilla.style.left = `${c * midaCasella}px`;
-      casilla.style.top = `${f * midaCasella}px`;
+      casilla.style.transform = `translate(${c * midaCasella}px, ${f * midaCasella}px)`;
       index++;
     }
   }
