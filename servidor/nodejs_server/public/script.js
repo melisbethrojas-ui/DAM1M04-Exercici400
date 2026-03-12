@@ -30,8 +30,8 @@ function init() {
     }
   }
 
-  // Crear fichas (1..8) usando UNA sola imagen
-  const imagen = "imatges/curry 4k.jpg"; // ← tu imagen aquí
+  // Crear fichas
+  const imagen = "imatges/curry 4k.jpg"; 
 
   for (let id = 1; id <= 8; id++) {
     const refFicha = document.createElement("div");
@@ -130,7 +130,7 @@ function intercambiar(f1, c1, f2, c2) {
 
 function actualizarDOM() {
 
-  // Mover fichas con TRANSFORM (como pide tu profesor)
+  // Mover fichas con TRANSFORM
   for (let f = 0; f < numFiles; f++) {
     for (let c = 0; c < numColumnes; c++) {
       const valor = tablero[f][c];
