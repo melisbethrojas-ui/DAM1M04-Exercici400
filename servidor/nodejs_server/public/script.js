@@ -30,21 +30,19 @@ function init() {
     }
   }
 
-  // Crear fichas
+  // Crear fichas dinámicamente
   const imagen = "imatges/curry 4k.jpg"; 
+  const totalFichas = numFiles * numColumnes - 1;
 
-  for (let id = 1; id <= 8; id++) {
+  for (let id = 1; id <= totalFichas; id++) {
     const refFicha = document.createElement("div");
     refFicha.classList.add("fitxa");
 
-    // Usar la misma imagen para todas las fichas
     refFicha.style.backgroundImage = `url("${imagen}")`;
 
-    // Ajustar tamaño total del fondo (3x3)
     refFicha.style.backgroundSize =
       `${midaCasella * numColumnes}px ${midaCasella * numFiles}px`;
 
-    // Calcular qué parte de la imagen corresponde a esta ficha
     const posX = ((id - 1) % numColumnes) * midaCasella;
     const posY = Math.floor((id - 1) / numColumnes) * midaCasella;
 
@@ -59,15 +57,35 @@ function init() {
   reinicia();
 }
 
+/* 🔥 GENERAR TABLERO DINÁMICO */
+function generarTablero() {
+  const totalFichas = numFiles * numColumnes - 1;
+  let contador = 1;
+  const nuevo = [];
+
+  for (let f = 0; f < numFiles; f++) {
+    const fila = [];
+    for (let c = 0; c < numColumnes; c++) {
+      if (contador <= totalFichas) fila.push(contador);
+      else fila.push(0); // hueco
+      contador++;
+    }
+    nuevo.push(fila);
+  }
+
+  return nuevo;
+}
+
+/* 🔥 GENERAR ESTADO RESUELTO DINÁMICO */
+function generarResuelto() {
+  return generarTablero();
+}
+
 function reinicia() {
 
-  tablero = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 0]
-  ];
+  tablero = generarTablero();  // tablero dinámico
 
-  mezclar(80);
+  mezclar(200); // más pasos para 4x4
 
   movimientos = 0;
   document.getElementById("info").textContent = "Movimientos: 0";
@@ -115,7 +133,6 @@ function clickCasilla(fila, col) {
   if (df + dc === 1) {
     intercambiar(fila, col, hueco.fila, hueco.col);
     movimientos++;
-    console.log("Movimiento número:", movimientos);
     document.getElementById("info").textContent = `Movimientos: ${movimientos}`;
     actualizarDOM();
     comprobarResuelto();
@@ -155,11 +172,7 @@ function actualizarDOM() {
 }
 
 function comprobarResuelto() {
-  const resuelto = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 0]
-  ];
+  const resuelto = generarResuelto();
 
   for (let f = 0; f < numFiles; f++) {
     for (let c = 0; c < numColumnes; c++) {
